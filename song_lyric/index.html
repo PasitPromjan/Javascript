@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song lyric</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>ค้นหาเพลง</h1>
+        <form action="" id="form">
+            <input type="text" placeholder="ป้อนชื่อเพลง-ศิลปิน" id="search">
+            <button>ค้นหา</button>
+        </form>
+    </header>
+    <div id="result" class="container">
+        <div id="loading-spinner" class="spinner-container" style="display: none;">
+            <div class="spinner"></div>
+        </div>
+        
+        <p>ผลการค้นหาเพลง</p>
+    </div>
+    <div id="more" class="container more"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
