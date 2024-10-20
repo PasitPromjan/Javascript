@@ -1,4 +1,3 @@
-// อ้างอิง element ใน index.html
 const balance = document.getElementById('balance');
 const money_plus = document.getElementById('money-plus');
 const money_minus = document.getElementById('money-minus');
@@ -32,14 +31,10 @@ function autoID(){
 
 function calculateMoney(){
     const amounts=transactions.map(transactions=>transactions.amount);
-    //คำนวณยอดคงเหลือ
     const total=amounts.reduce((result,item)=>(result+=item),0).toFixed(2);
-    // คำนวณรายรับ
     const income=amounts.filter(item=>item>0).reduce((result,item)=>(result+=item),0).toFixed(2);
-    // คำนวณรายจ่าย
     const expense=(amounts.filter(item=>item<0).reduce((result,item)=>(result+=item),0)*-1).toFixed(2);
 
-    // แสดงผลทางจอภาพ
     balance.innerText=`฿`+formatNumber(total);
     money_plus.innerText=`฿`+formatNumber(income);
     money_minus.innerText=`฿`+formatNumber(expense);

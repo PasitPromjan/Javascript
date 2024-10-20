@@ -3,25 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Song lyric</title>
-    <link rel="stylesheet" href="style.css">
+    <title>ค้นหาเพลงและเนื้อเพลง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles */
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+        }
+        .form-container input:focus, .form-container button:focus {
+            outline: none;
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff1177, 0 0 40px #ff1177;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>ค้นหาเพลง</h1>
-        <form action="" id="form">
-            <input type="text" placeholder="ป้อนชื่อเพลง-ศิลปิน" id="search">
-            <button>ค้นหา</button>
-        </form>
-    </header>
-    <div id="result" class="container">
-        <div id="loading-spinner" class="spinner-container" style="display: none;">
-            <div class="spinner"></div>
+<body class="min-h-screen flex flex-col items-center justify-center text-white">
+
+    <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">ค้นหาเพลง</h1>
+        <div class="form-container bg-white rounded-lg p-4 shadow-lg max-w-lg mx-auto">
+            <form action="" id="form" class="flex items-center space-x-4">
+                <input type="text" id="search" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 transition-all duration-300" placeholder="ป้อนชื่อเพลงหรือศิลปิน...">
+                <button class="bg-gradient-to-r from-pink-500 to-red-400 hover:from-red-400 hover:to-pink-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-all duration-300">ค้นหา</button>
+            </form>
         </div>
-        
-        <p>ผลการค้นหาเพลง</p>
+    </header>
+
+    <div id="result" class="container mx-auto p-4 bg-white bg-opacity-20 rounded-lg shadow-lg max-w-3xl">
+        <p class="text-center text-lg font-semibold">ผลการค้นหาเพลง</p>
+        <ul class="songs space-y-4">
+            <!-- Example Song List Item -->
+            <li class="bg-white bg-opacity-10 p-4 rounded-lg shadow-lg hover:bg-opacity-20 transition-all duration-300">
+                <span class="block text-xl font-semibold">
+                    <strong>ศิลปิน</strong> - ชื่อเพลง
+                </span>
+                <button class="btn bg-gradient-to-r from-green-500 to-teal-400 text-white px-4 py-2 mt-2 rounded-lg hover:from-teal-400 hover:to-green-500 transition-all duration-300">เนื้อเพลง</button>
+            </li>
+        </ul>
     </div>
-    <div id="more" class="container more"></div>
+
+    <div id="more" class="mt-8">
+        <button class="btn bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300">ถัดไป</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
