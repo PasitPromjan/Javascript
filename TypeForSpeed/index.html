@@ -3,31 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speed Typing</title>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="style.css">
+    <title>WPM Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .correct { color: #22c55e; } /* Tailwind สีเขียว */
+        .incorrect { color: #ef4444; } /* Tailwind สีแดง */
+    </style>
 </head>
-<body>
-    <button id="level-btn" class="level-btn">
-        <i class="fas fa-cog"></i>
-    </button>
-    <div class="settings" id="settings">
-        <form id="level-form">
-            <label for="">ระดับความยาก :</label>
-            <select id="level">
-                <option value="easy">ง่าย</option>
-                <option value="medium">ปานกลาง</option>
-                <option value="hard">ยาก</option>
-            </select>
-        </form>
-    </div>
-    <div class="container">
-        <h2>เกมพิมพ์เร็ว | Speed Typing</h2>
-        <h1 id="word" class="word"></h1>
-        <input type="text" name="" id="text" autocomplete="off" placeholder="ป้อนคำคุณเห็น">
-        <p class="time-container">เวลา <span id="time"></span> วินาที</p>
-        <p class="score-container"><span id="score">0</span> คะแนน</p>
-        <div id="gameover-container" class="gameover-container"></div>
+<body class="bg-gray-900 text-white h-screen flex items-center justify-center">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-2xl text-center w-full max-w-3xl">
+        <h2 class="text-4xl font-bold mb-6">WPM Test</h2>
+        <div id="text-display" class="mb-6 text-2xl leading-relaxed"></div>
+        <input type="text" id="text-input" class="w-full p-4 text-lg bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-white" placeholder="Start typing..." autocomplete="off" />
+        <div class="mt-6">
+            <p class="text-xl">เวลา: <span id="time" class="font-bold text-2xl">60</span> วินาที</p>
+            <p class="text-xl">ความเร็วพิมพ์: <span id="wpm" class="font-bold text-2xl">0</span> คำ/นาที</p>
+        </div>
+        <div id="gameover-container" class="hidden mt-6"></div>
     </div>
     <script src="script.js"></script>
 </body>

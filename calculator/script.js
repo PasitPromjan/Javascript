@@ -1,73 +1,75 @@
-const calculatorDisplay = document.querySelector('h1');
-const inputBtn = document.querySelectorAll('button'); // array
-const clearBtn=document.getElementById('clear-btn');
+// script.js
 
+// Get references to the display and buttons
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('.calculator-button button');
+const clearBtn = document.getElementById('clear-btn');
 
-const calculate={
-    "/":(firstNumber,secondNumber)=> secondNumber!=0 ? firstNumber/secondNumber : "error",
-    "*":(firstNumber,secondNumber) => firstNumber * secondNumber,
-    "+":(firstNumber,secondNumber) => firstNumber + secondNumber,
-    "-":(firstNumber,secondNumber) => firstNumber - secondNumber,
-    "=":(firstNumber,secondNumber) => secondNumber
+const calculate = {
+    "/": (firstNumber, secondNumber) => secondNumber !== 0 ? firstNumber / secondNumber : "Error",
+    "*": (firstNumber, secondNumber) => firstNumber * secondNumber,
+    "+": (firstNumber, secondNumber) => firstNumber + secondNumber,
+    "-": (firstNumber, secondNumber) => firstNumber - secondNumber,
+};
+
+let firstValue = 0; 
+let operatorValue = '';
+let waitForNext = false; 
+
+function updateDisplay(value) {
+    display.textContent = value;
 }
 
-let firstValue = 0; // ตัวเลขที่ 1
-let operatorValue = ''; // เก็บตัวดำเนินการ
-let waitForNext = false; // เก็บสถานะของตัวเลขและตัวดำเนินการ
-
-function setNumberValue(number){
-    if(waitForNext){
-        calculatorDisplay.textContent=number;
-        waitForNext=false;
-    }else{
-        const displayValue = calculatorDisplay.textContent;
-        calculatorDisplay.textContent = displayValue === '0' ? number : displayValue+number;
+function setNumberValue(number) {
+    if (waitForNext) {
+        updateDisplay(number);
+        waitForNext = false;
+    } else {
+        const displayValue = display.textContent;
+        updateDisplay(displayValue === '0' ? number : displayValue + number);
     }
 }
 
-function callOperator(operator){
-    const currentValue=Number(calculatorDisplay.textContent);
-    if(operatorValue && waitForNext){
-        operatorValue=operator;
+function callOperator(operator) {
+    const currentValue = parseFloat(display.textContent);
+    if (operatorValue && waitForNext) {
+        operatorValue = operator;
         return;
     }
-    if(!firstValue){
-        firstValue=currentValue; // ค่าเริ่มต้น 
-    }else{
-       const result = calculate[operatorValue](firstValue,currentValue);
-       calculatorDisplay.textContent=result;
-       firstValue=result;
-       if(firstValue === "error"){
+    if (!firstValue) {
+        firstValue = currentValue; 
+    } else {
+        const result = calculate[operatorValue](firstValue, currentValue);
+        updateDisplay(result);
+        firstValue = result;
+        if (firstValue === "Error") {
             resetAll();
-       }
+        }
     }
-    operatorValue=operator;
-    waitForNext=true;
-
+    operatorValue = operator;
+    waitForNext = true;
 }
 
-function addDecimal(){
-    if(waitForNext) return;
-    if(!calculatorDisplay.textContent.includes(".")){
-        calculatorDisplay.textContent = `${calculatorDisplay.textContent}.`;
+function addDecimal() {
+    if (waitForNext) return;
+    if (!display.textContent.includes(".")) {
+        updateDisplay(`${display.textContent}.`);
     }
 }
 
-inputBtn.forEach((input)=>{
-    // ปุ่มตัวเลข 0-9
-    if(input.classList.length === 0){
-        input.addEventListener('click',()=>setNumberValue(input.value));
-    }else if (input.classList.contains("operator")){
-        input.addEventListener('click',()=>callOperator(input.value));
-    }else if(input.classList.contains("decimal")){
-        input.addEventListener('click',()=>addDecimal());
+buttons.forEach((button) => {
+    if (button.classList.length === 0) {
+        button.addEventListener('click', () => setNumberValue(button.value));
+    } else if (button.classList.contains("operator")) {
+        button.addEventListener('click', () => callOperator(button.value));
     }
 });
 
-function resetAll(){
-    firstValue=0;
-    operatorValue='';
-    waitForNext=false;
-    calculatorDisplay.textContent='0';
+function resetAll() {
+    firstValue = 0;
+    operatorValue = '';
+    waitForNext = false;
+    updateDisplay('0');
 }
-clearBtn.addEventListener('click',()=>resetAll());
+
+clearBtn.addEventListener('click', () => resetAll());

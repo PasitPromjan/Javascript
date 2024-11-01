@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech to Text</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1 class="title">แปลงเสียงพูดเป็นข้อความ</h1>
-    <p class="message"></p>
-    <button class="control record">Record</button>
+<body class="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 min-h-screen flex flex-col items-center justify-center">
+    <h1 class="title text-4xl font-bold mb-6 text-white hover:text-gray-200 transition duration-300 ease-in-out">แปลงเสียงพูดเป็นข้อความ</h1>
+    <p class="message bg-white text-gray-800 w-full max-w-lg p-4 rounded-lg shadow-lg mb-6 text-lg"></p>
+    <button class="control record bg-green-500 text-white font-bold py-2 px-4 rounded-full shadow-lg transform transition hover:bg-green-600 focus:ring-4 focus:ring-green-300 focus:outline-none hover:scale-105 hover:shadow-xl duration-300 ease-in-out">Record</button>
+
     <script src="script.js"></script>
 </body>
 </html>

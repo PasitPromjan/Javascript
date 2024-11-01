@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Case Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4">
+        <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
+            <!-- Tabs -->
+            <div class="mb-6">
+                <div class="border-b border-gray-200">
+                    <nav class="flex -mb-px">
+                        <button onclick="switchTab('generate')" id="generate-tab" class="tab-button active">
+                            สร้าง Test Cases
+                        </button>
+                        <button onclick="switchTab('run')" id="run-tab" class="tab-button">
+                            รัน Solution
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Generate Test Cases Section -->
+            <div id="generate-section" class="tab-content">
+                <form id="generate-form" class="space-y-6">
+                    <!-- Format Selection -->
+                    <div class="border-b pb-4">
+                        <h2 class="text-lg font-semibold mb-4">รูปแบบ Input</h2>
+                        <select name="input_format" id="input-format" class="w-full p-2 border border-gray-300 rounded" onchange="toggleFormatOptions()">
+                            <option value="n_lines">N-Lines (จำนวน N บรรทัด)</option>
+                            <option value="matrix">Matrix (เมทริกซ์)</option>
+                        </select>
+                    </div>
+
+                    <!-- N-Lines Format Options -->
+                    <div id="n-lines-options" class="border-b pb-4 space-y-4">
+                        <h2 class="text-lg font-semibold mb-4">ตั้งค่า N-Lines</h2>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">จำนวนบรรทัด (N):</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">ค่าต่ำสุด:</label>
+                                    <input type="number" name="n_min" value="1" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">ค่าสูงสุด:</label>
+                                    <input type="number" name="n_max" value="10" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">ค่าในแต่ละบรรทัด:</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">ค่าต่ำสุด:</label>
+                                    <input type="number" name="value_min" value="1" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">ค่าสูงสุด:</label>
+                                    <input type="number" name="value_max" value="100" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Matrix Format Options -->
+                    <div id="matrix-options" class="border-b pb-4 space-y-4" style="display: none;">
+                        <h2 class="text-lg font-semibold mb-4">ตั้งค่า Matrix</h2>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">ขนาดเมทริกซ์:</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">จำนวนแถว (Row):</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <input type="number" name="row_min" value="1" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                        <input type="number" name="row_max" value="5" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">จำนวนคอลัมน์ (Column):</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <input type="number" name="col_min" value="1" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                        <input type="number" name="col_max" value="5" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">ค่าในเมทริกซ์:</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">ค่าต่ำสุด:</label>
+                                    <input type="number" name="matrix_value_min" value="1" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">ค่าสูงสุด:</label>
+                                    <input type="number" name="matrix_value_max" value="100" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Common Options -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">จำนวนชุดทดสอบ:</label>
+                            <input type="number" name="test_cases" min="1" value="1" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition">
+                        สร้าง Test Cases
+                    </button>
+                </form>
+            </div>
+
+            <!-- Run Solution Section -->
+            <div id="run-section" class="tab-content hidden space-y-6">
+                <form id="run-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">ไฟล์ Solution (C++)</label>
+                        <input type="file" name="cpp_file" accept=".cpp" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">เลือก Test Case</label>
+                        <select id="test-case-select" name="test_case_file" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                            <option value="">เลือก Test Case</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="optimize" name="optimize" class="rounded border-gray-300">
+                        <label for="optimize" class="text-sm font-medium text-gray-700">Optimize (-O2)</label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition">
+                        Compile และ Run
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="mt-6 space-y-2"></div>
+            <div class="mt-8">
+                <h2 class="text-lg font-semibold mb-4">อัปโหลดไฟล์เพื่อตรวจสอบ</h2>
+                <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <input type="file" name="file" accept=".in" required class="w-full p-2 border border-gray-300 rounded">
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition">
+                        อัปโหลดและตรวจสอบ
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .tab-button {
+            @apply px-4 py-2 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700;
+        }
+        .tab-button.active {
+            @apply border-blue-500 text-blue-600;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <script>
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            // Show/hide content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(`${tabName}-section`).classList.remove('hidden');
+
+            // Refresh test case list when switching to run tab
+            if (tabName === 'run') {
+                refreshTestCaseList();
+            }
+        }
+
+        function toggleFormatOptions() {
+            const format = document.getElementById('input-format').value;
+            document.getElementById('n-lines-options').style.display = format === 'n_lines' ? 'block' : 'none';
+            document.getElementById('matrix-options').style.display = format === 'matrix' ? 'block' : 'none';
+        }
+
+        async function refreshTestCaseList() {
+            try {
+                const response = await fetch('/list-test-cases');
+                const testCases = await response.json();
+                const select = document.getElementById('test-case-select');
+                select.innerHTML = '<option value="">เลือก Test Case</option>';
+                testCases.forEach(testCase => {
+                    const option = document.createElement('option');
+                    option.value = testCase;
+                    option.textContent = testCase;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to fetch test cases:', error);
+            }
+        }
+
+        // Generate Test Cases Form Handler
+        document.getElementById('generate-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                const resultsDiv = document.getElementById('results');
+                
+                if (result.status === 'success') {
+                    resultsDiv.innerHTML = `
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                            <p class="font-bold">สร้าง Test cases สำเร็จ!</p>
+                            <a href="/download/${result.filename}" class="text-blue-500 hover:text-blue-700 underline">
+                                ดาวน์โหลดไฟล์ Test cases
+                            </a>
+                        </div>
+                    `;
+                    refreshTestCaseList();
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = `
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        <p class="font-bold">เกิดข้อผิดพลาด!</p>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+
+        // Run Solution Form Handler
+        document.getElementById('run-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            try {
+                const response = await fetch('/compile-and-run', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                const resultsDiv = document.getElementById('results');
+                
+                if (result.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                            <p class="font-bold">รันโปรแกรมสำเร็จ!</p>
+                            <p>เวลาที่ใช้: ${result.execution_time} วินาที</p>
+                            <p>หน่วยความจำที่ใช้: ${result.memory_usage} MB</p>
+                            <a href="/download/${result.sol_file}" class="text-blue-500 hover:text-blue-700 underline">
+                                ดาวน์โหลดไฟล์ผลลัพธ์ (.sol)
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = `
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        <p class="font-bold">เกิดข้อผิดพลาด!</p>
+                        <pre class="whitespace-pre-wrap">${error.message}</pre>
+                    </div>
+                `;
+            }
+        });
+
+        // Initial setup
+        refreshTestCaseList();
+    </script>
+</body>
+</html>

@@ -3,32 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Weather API</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Weather API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <main>
-        <header>
-            <h1>Weather API</h1>
-            <form id="form">
-                <input type="text" placeholder="search city name" id="search">
-                <button type="submit">Search</button>
+<body class="bg-blue-200 flex items-center justify-center min-h-screen">
+    <main class="bg-white p-8 rounded-lg shadow-lg">
+        <header class="mb-6 text-center">
+            <h1 class="text-3xl font-bold text-blue-700 mb-4">Weather API</h1>
+            <form id="form" class="flex justify-center">
+                <select id="city-select" class="border border-blue-400 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <option value="Bangkok">Bangkok</option>
+                    <option value="Tokyo">Tokyo</option>
+                    <option value="New York">New York</option>
+                    <option value="London">London</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Sydney">Sydney</option>
+                </select>
             </form>
         </header>
-        <section>
-            <div id="location">
-                <h1 id="city">Bangkok</h1>
-                <p id="state">TH</p>
+        <section class="text-center">
+            <div id="location" class="mb-4">
+                <h1 id="city" class="text-4xl font-bold text-blue-900">Bangkok</h1>
+                <p id="state" class="text-lg text-blue-500">TH</p>
             </div>
-            <div id="card">
-                <div id="weather">
-                    <h1>35</h1>
-                    <small>max : 37, min : 21</small>
+            <div id="card" class="bg-blue-100 p-6 rounded-lg shadow-lg">
+                <div id="weather" class="mb-4 text-4xl font-bold text-gray-800">
+                    <h1>35°C</h1>
+                    <small class="text-sm text-gray-600">max: 37°C, min: 21°C</small>
                 </div>
-                <div id="info">
-                    <div id="status">Hot</div>
-                    <div id="humidity">100</div>
-                    <div id="wind">4.0</div>
+                <div id="info" class="grid grid-cols-3 gap-4 text-center">
+                    <div id="status" class="text-xl text-blue-600 font-semibold">Hot</div>
+                    <div id="humidity" class="text-xl text-blue-600 font-semibold">Humidity: 100%</div>
+                    <div id="wind" class="text-xl text-blue-600 font-semibold">Wind: 4.0 m/s</div>
                 </div>
             </div>
         </section>

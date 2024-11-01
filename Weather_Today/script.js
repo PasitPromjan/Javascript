@@ -1,52 +1,41 @@
-let city="Tokyo";
-const apiKey="caa3217f8f0c63e56472f590aafaa87f";
+const apiKey = 'ee04899601384c3cb2c162805242110';
+let city = 'Bangkok';
+const citySelect = document.getElementById('city-select');
 
-const form=document.getElementById('form');
-const search=document.getElementById('search');
-
-
-function setData(){
-    showWeather();
-}
-
-async function showWeather(){
+// ฟังก์ชันสำหรับเรียกข้อมูลจาก WeatherAPI
+async function showWeather() {
     try {
-        const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-        const response=await fetch(url);
-        const data=await response.json();
+        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
+        const response = await fetch(url);
+        const data = await response.json();
         showDataToUI(data);
     } catch (error) {
         console.log(error);
     }
 }
 
-function showDataToUI(data){
-    const city=document.getElementById('city');
-    const state=document.getElementById('state');
-    const weather=document.getElementById('weather');
-    const status=document.getElementById('status');
-    const humidity=document.getElementById('humidity');
-    const wind=document.getElementById('wind');
+// ฟังก์ชันสำหรับแสดงข้อมูลใน UI
+function showDataToUI(data) {
+    const cityElement = document.getElementById('city');
+    const state = document.getElementById('state');
+    const weather = document.getElementById('weather');
+    const status = document.getElementById('status');
+    const humidity = document.getElementById('humidity');
+    const wind = document.getElementById('wind');
 
-    city.innerText=data.name;
-    state.innerText=data.sys.country;
-    weather.children[0].innerHTML=calculate(parseInt(data.main.temp))+" C&deg;";
-    weather.children[1].innerHTML="min :"+calculate(parseInt(data.main.temp_min))+" C&deg;"+" max : "+calculate(parseInt(data.main.temp_max))+" C&deg;";
-
-    // status
-    status.innerText=data.weather[0].main;
-    humidity.innerText="Humidity:"+data.main.humidity;
-    wind.innerText="Wind :"+data.wind.speed;
+    cityElement.innerText = data.location.name;
+    state.innerText = data.location.country;
+    weather.children[0].innerHTML = `${data.current.temp_c} C&deg;`;
+    weather.children[1].innerHTML = `Min : ${data.current.temp_c} C&deg; Max : ${data.current.temp_c} C&deg;`;
+    status.innerText = data.current.condition.text;
+    humidity.innerText = `Humidity: ${data.current.humidity}%`;
+    wind.innerText = `Wind: ${data.current.wind_kph} km/h`;
 }
 
-function calculate(k){
-    return k-273;
-}
-function callDataAPI(e){
-    e.preventDefault();
-    city=search.value;
-    showWeather();
-}
+// ฟังก์ชันสำหรับการเปลี่ยนเมือง
+citySelect.addEventListener('change', (e) => {
+    city = e.target.value; // เปลี่ยนเมืองตามการเลือก
+    showWeather(); // เรียกฟังก์ชันอัปเดตข้อมูล
+});
 
-form.addEventListener('submit',callDataAPI);
-setData();
+showWeather(); // เรียกข้อมูลครั้งแรกสำหรับเมืองเริ่มต้น

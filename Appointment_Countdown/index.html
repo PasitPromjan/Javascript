@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมตารางนัดหมาย</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg w-full max-w-md">
+        <div class="input-container">
+            <h1 class="text-2xl font-bold text-center mb-4">ตารางนัดหมาย</h1>
+            <form class="form" id="countDownForm">
+                <label for="title" class="block text-gray-700">หัวข้อ</label>
+                <input type="text" class="title w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:bg-indigo-50 transition duration-200" id="title" required>
+                
+                <label for="date-picker" class="block text-gray-700 mt-4">วัน/เดือน/ปี</label>
+                <input type="date" class="date-picker w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:bg-indigo-50 transition duration-200" id="date-picker" required>
+                
+                <button type="submit" class="mt-6 w-full bg-indigo-500 text-white py-2 rounded-lg hover:bg-indigo-600 transition duration-300 shadow-lg transform hover:scale-105">บันทึก</button>
+            </form>
+        </div>
+
+        <div class="countdown mt-8" id="countdown" hidden>
+            <h1 id="countdown-title" class="text-2xl font-bold text-center mb-4"></h1>
+            <ul class="flex justify-around text-center">
+                <li><span class="text-3xl font-bold"></span>วัน</li>
+                <li><span class="text-3xl font-bold"></span>ชั่วโมง</li>
+                <li><span class="text-3xl font-bold"></span>นาที</li>
+                <li><span class="text-3xl font-bold"></span>วินาที</li>
+            </ul>
+            <button id="countdown-button" class="mt-6 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-300 shadow-lg transform hover:scale-105">ยกเลิก</button>
+        </div>
+
+        <div class="complete mt-8" id="complete" hidden>
+            <h1 class="complete-title text-2xl font-bold text-center">แจ้งเตือน</h1>
+            <h1 class="complete-info text-xl text-center mt-4" id="complete-info"></h1>
+            <button id="complete-button" class="mt-6 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300 shadow-lg transform hover:scale-105">สร้างรายการใหม่</button>
+        </div>
+    </div>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js"></script>
+</body>
+</html>

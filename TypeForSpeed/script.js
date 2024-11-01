@@ -1,91 +1,108 @@
-const wordEl=document.getElementById('word');
-const textEl=document.getElementById('text');
-const scoreEl=document.getElementById('score');
-const timeEl=document.getElementById('time');
+const textDisplay = document.getElementById('text-display');
+const textInput = document.getElementById('text-input');
+const timeEl = document.getElementById('time');
+const wpmEl = document.getElementById('wpm');
+const gameoverEl = document.getElementById('gameover-container');
 
-const btnLevelEl=document.getElementById('level-btn');
-const settingsEl=document.getElementById('settings');
-const levelFormEl=document.getElementById('level-form');
-const levelEl=document.getElementById('level');
-const gameoverEl=document.getElementById('gameover-container');
+let randomParagraph;
+let time = 60;
+let interval;
+let typedCharacters = 0;
+let isGameRunning = false;
 
-const words =["หมู","แมว","ไก่","จระเข้"];
+const paragraphs = [
+    "This is a test paragraph for speed typing. Try to type it as fast as you can.",
+    "Another sentence is here. Keep typing quickly and accurately to increase your WPM.",
+    "Focus on typing without making mistakes, and improve your speed over time."
+];
 
-let randomText;
-let score=0;
-let time=10;// easy => 15 , medium => 10 , hard=> 5
-const saveMode=localStorage.getItem('mode') !== null ? localStorage.getItem('mode') : 'medium';
-
-let level='medium';
-
-const timeInterval=setInterval(updateTime,1000);
-
-function getRandomWord(){
-    return words[Math.floor(Math.random()*words.length)]
+function getRandomParagraph() {
+    return paragraphs[Math.floor(Math.random() * paragraphs.length)];
 }
 
-function displayWordToUI(){
-    randomText=getRandomWord();
-    wordEl.innerHTML = randomText;
-    timeEl.innerHTML=time;
-}
-textEl.addEventListener('input',(e)=>{
-    const inputText=e.target.value;
+function displayParagraph() {
+    randomParagraph = getRandomParagraph();
+    textDisplay.innerHTML = ''; 
 
-    if(inputText === randomText){
-        if(saveMode == 'easy'){
-            time+=5;
-        }else if(saveMode == 'medium'){
-            time+=3;
-        }else{
-            time+=2;
-        }
-        displayWordToUI();
-        updateScore();
-        e.target.value='';
-    }
-});
-
-function updateScore(){
-    score+=10;
-    scoreEl.innerHTML=score;
+    randomParagraph.split('').forEach(char => {
+        const span = document.createElement('span');
+        span.innerText = char;
+        textDisplay.appendChild(span);
+    });
 }
 
-function updateTime(){
+function startGame() {
+    isGameRunning = true;
+    time = 60;
+    typedCharacters = 0;
+    textInput.value = '';
+    displayParagraph(); 
+    textInput.focus();
+    
+    interval = setInterval(updateTime, 1000);
+}
+
+function updateTime() {
     time--;
-    timeEl.innerHTML=time;
-    if(time === 0){
-        clearInterval(timeInterval);
+    timeEl.textContent = time;
+
+    if (time === 0) {
+        clearInterval(interval);
         gameOver();
     }
 }
-function gameOver(){
-    gameoverEl.innerHTML=`
-    <h1>จบเกมแล้วนะครับ</h1>
-    <p>คะแนนของคุณ = ${score} แต้ม</p>
-    <button onclick="location.reload()">เล่นอีกครั้ง</button>
-    `;
-    gameoverEl.style.display='flex';
-}
-btnLevelEl.addEventListener('click',()=>{
-    settingsEl.classList.toggle('hide');
-});
 
-levelEl.addEventListener('change',(e)=>{
-    level=e.target.value;
-    localStorage.setItem("mode",level);
-});
+textInput.addEventListener('input', () => {
+    const inputText = textInput.value;
+    const characters = textDisplay.querySelectorAll('span');
+    
+    let correct = true;
+    typedCharacters = 0; 
 
-function startGame(){
-    levelEl.value=saveMode;
-    if(saveMode == 'easy'){
-        time=15;
-    }else if(saveMode == 'medium'){
-        time=10;
-    }else{
-        time=5;
+    characters.forEach((charSpan, index) => {
+        const typedChar = inputText[index];
+
+        if (typedChar == null) {
+            charSpan.classList.remove('correct', 'incorrect');
+        } else if (typedChar === charSpan.innerText) {
+            charSpan.classList.add('correct');
+            charSpan.classList.remove('incorrect');
+            typedCharacters++;
+        } else {
+            charSpan.classList.add('incorrect');
+            charSpan.classList.remove('correct');
+            correct = false;
+        }
+    });
+
+
+    if (inputText === randomParagraph) {
+        clearInterval(interval);
+        const wpm = calculateWPM();
+        showGameOver(wpm);
     }
-    displayWordToUI();
+});
+
+function calculateWPM() {
+    const minutes = (60 - time) / 60;
+    const wordCount = typedCharacters / 5; 
+    return Math.round(wordCount / minutes);
 }
+
+function showGameOver(wpm) {
+    isGameRunning = false;
+    gameoverEl.innerHTML = `
+        <h1 class="text-3xl font-bold">จบแล้ว!</h1>
+        <p class="text-xl">ความเร็วพิมพ์ของคุณคือ ${wpm} คำ/นาที</p>
+        <button onclick="startGame()" class="mt-4 p-2 bg-blue-500 rounded text-white">เล่นอีกครั้ง</button>
+    `;
+    gameoverEl.classList.remove('hidden');
+}
+
+function gameOver() {
+    const wpm = calculateWPM();
+    showGameOver(wpm); 
+}
+
+// เริ่มเกมเมื่อโหลดหน้าเว็บ
 startGame();
-textEl.focus();

@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เครื่องคิดเลข</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="calculator">
-        <div class="calculator-display">
-            <h1>0</h1>
+<body class="bg-gray-200 flex items-center justify-center min-h-screen">
+    <div class="calculator bg-white shadow-lg rounded-lg p-6 w-80">
+        <div class="calculator-display mb-4 p-4 bg-black text-white rounded-lg text-right text-3xl font-bold">
+            <h1 id="display">0</h1>
         </div>
-        <div class="calculator-button">
-            <button class="operator" value="+">+</button>
-            <button class="operator" value="-">-</button>
-            <button class="operator" value="*">x</button>
-            <button class="operator" value="/">÷</button>
-            <button value="7">7</button>
-            <button value="8">8</button>
-            <button value="9">9</button>
-            <button value="4">4</button>
-            <button value="5">5</button>
-            <button value="6">6</button>
-            <button value="1">1</button>
-            <button value="2">2</button>
-            <button value="3">3</button>
-            <button value="." class="decimal">.</button>
-            <button value="0">0</button>
-            <button value="c" class="clear-btn" id="clear-btn">C</button>
-            <button value="=" class="equal operator">=</button>
+        <div class="calculator-button grid grid-cols-4 gap-4">
+            <button class="operator bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600   " value="+">+</button>
+            <button class="operator bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600   " value="-">-</button>
+            <button class="operator bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600   " value="*">x</button>
+            <button class="operator bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600   " value="/">÷</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="7">7</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="8">8</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="9">9</button>
+            <button class="bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600   " value="c" class="clear-btn" id="clear-btn">C</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="4">4</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="5">5</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="6">6</button>
+            <button class="operator bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600   " value="=" class="equal operator">=</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="1">1</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="2">2</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="3">3</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value=".">.</button>
+            <button class="bg-gray-300 text-gray-800 p-2 rounded-lg hover:bg-gray-400   " value="0">0</button>
         </div>
     </div>
+    <script>
+        
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
